@@ -14,11 +14,6 @@ const Detail = ({
   isError,
   car
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const SEOData = {
-    title: `${car.brand} ${car.name}`,
-    description: `월 ${car.amount} 원`,
-    image: car.image
-  };
   const {
     imageUrl,
     name,
@@ -48,9 +43,9 @@ const Detail = ({
   return (
     <>
       <SEO
-        title={SEOData.title}
-        description={SEOData.description}
-        image={SEOData.image}
+        title={car?.title}
+        description={car?.description}
+        image={car?.image}
       />
       <CarProfile imageUrl={imageUrl} brand={brand} name={name} />
       <ListItem value={`월 ${amount} 원`} />

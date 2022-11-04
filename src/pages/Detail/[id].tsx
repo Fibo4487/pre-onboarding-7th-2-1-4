@@ -12,7 +12,10 @@ import { getCars } from "@/lib/api";
 const Detail = ({
   isLoading,
   isError,
-  car
+  car,
+  metaTitle,
+  metaDescription,
+  metaImage
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const {
     imageUrl,
@@ -42,11 +45,7 @@ const Detail = ({
 
   return (
     <>
-      <SEO
-        title={car?.title}
-        description={car?.description}
-        image={car?.image}
-      />
+      <SEO title={metaTitle} description={metaDescription} image={metaImage} />
       <CarProfile imageUrl={imageUrl} brand={brand} name={name} />
       <ListItem value={`월 ${amount} 원`} />
       <ListHeader title="차량 정보" />
@@ -92,7 +91,10 @@ export const getServerSideProps: GetServerSideProps = async () => {
       dehydratedState: dehydrate(queryClient),
       isLoading,
       isError,
-      car
+      car,
+      metaTitle: `${car?.attribute.name} ${car?.attribute.brand} | 차량 상세 정보`,
+      metaDescription: `월 ${car?.amount} 원`,
+      metaImage: car?.attribute.imageUrl
     }
   };
 };

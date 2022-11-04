@@ -7,20 +7,14 @@ interface SEOProps {
   siteTitle?: string;
 }
 
-export default function SEO({
-  description,
-  title,
-  siteTitle,
-  image
-}: SEOProps) {
+export default function SEO({ description, title, image }: SEOProps) {
   return (
     <Head>
-      <title>{`${title} | ${siteTitle}`}</title>
+      <title>{title}</title>
       <meta name="description" content={description} />
       <meta property="og:type" content="website" />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
-      <meta property="og:site_name" content={siteTitle} />
       <meta property="og:image" content={image} />
       <meta property="twitter:card" content="summary" />
       <meta property="twitter:title" content={title} />

@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import CarProfile from "@/Components/CarProfile";
 import ListHeader from "@/Components/ListHeader/indx";
 import ListItem from "@/Components/ListItem";
@@ -8,15 +7,12 @@ import SEO from "@/Components/SEO/seo";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { getCars } from "@/lib/api";
+import { useRouter } from "next/router";
 
-const Detail = ({
-  isLoading,
-  isError,
-  car,
-  metaTitle,
-  metaDescription,
-  metaImage
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const Detail = () => {
+  const router = useRouter();
+  const { id } = router.query;
+  const { isLoading, isError, car } = useCar(Number(id));
   const {
     imageUrl,
     name,
@@ -45,7 +41,11 @@ const Detail = ({
 
   return (
     <>
-      <SEO title={metaTitle} description={metaDescription} image={metaImage} />
+      <SEO
+        title={`${car?.attribute.brand} ${car?.attribute.name}`}
+        description={`월 ${car?.amount} 원`}
+        image={car?.attribute.imageUrl || "error"}
+      />
       <CarProfile imageUrl={imageUrl} brand={brand} name={name} />
       <ListItem value={`월 ${amount} 원`} />
       <ListHeader title="차량 정보" />
@@ -82,19 +82,10 @@ export default Detail;
 export const getServerSideProps: GetServerSideProps = async () => {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery(["cars", "ALL"], getCars);
-  const router = useRouter();
-  const { id } = router.query;
-  const { isLoading, isError, car } = useCar(Number(id));
 
   return {
     props: {
-      dehydratedState: dehydrate(queryClient),
-      isLoading,
-      isError,
-      car,
-      metaTitle: `${car?.attribute.name} ${car?.attribute.brand} | 차량 상세 정보`,
-      metaDescription: `월 ${car?.amount} 원`,
-      metaImage: car?.attribute.imageUrl
+      dehydratedState: dehydrate(queryClient)
     }
   };
 };

@@ -4,7 +4,7 @@ import ListItem from "@/Components/ListItem";
 import { useChangeDetailData, useCar } from "@/lib/hooks";
 import { CardItemListWrapper } from "@/Components/CarItemList/styles";
 import SEO from "@/Components/SEO/seo";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import { GetServerSideProps } from "next";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { getCars } from "@/lib/api";
 import { useRouter } from "next/router";
